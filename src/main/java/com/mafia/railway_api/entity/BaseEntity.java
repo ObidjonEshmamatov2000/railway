@@ -4,7 +4,9 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +28,10 @@ public class BaseEntity {
 
     @UpdateTimestamp
     private Date updatedDate;
+
+    @CreatedBy
     private String createdBy;
+
+    @LastModifiedBy
     private String updatedBy;
 }

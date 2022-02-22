@@ -1,6 +1,7 @@
 package com.mafia.railway_api.config;
 
 import com.mafia.railway_api.exception.ConnectionCustomException;
+import com.mafia.railway_api.exception.ConnectionNotFound;
 import com.mafia.railway_api.exception.UserCustomException;
 import com.mafia.railway_api.model.response.ApiExceptionErrorResponse;
 import org.springframework.http.HttpHeaders;
@@ -34,6 +35,14 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleConnectionCustomException() {
         ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
                 HttpStatus.BAD_REQUEST.value(), "connection is exist"
+        );
+        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
+    }
+
+    @ExceptionHandler(ConnectionNotFound.class)
+    public ResponseEntity<?> handleConnectionNotFoundException() {
+        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
+                HttpStatus.BAD_REQUEST.value(), "connection is not found"
         );
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }
