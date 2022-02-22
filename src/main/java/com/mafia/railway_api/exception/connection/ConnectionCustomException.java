@@ -1,4 +1,4 @@
-package com.mafia.railway_api.exception;
+package com.mafia.railway_api.exception.connection;
 
 
 public class ConnectionCustomException extends RuntimeException{

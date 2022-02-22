@@ -18,32 +18,32 @@ public class ConnectionController {
     public ResponseEntity<?> add(
             @Valid @RequestBody ConnectionReceiveDTO connectionReceiveDTO
             ) {
-        return ResponseEntity.ok(connectionService.addConnection(connectionReceiveDTO));
+        return ResponseEntity.ok(connectionService.add(connectionReceiveDTO));
     }
 
     @GetMapping("/list")
     public ResponseEntity<?> getAll() {
-        return ResponseEntity.ok(connectionService.getConnectionList());
+        return ResponseEntity.ok(connectionService.getList());
     }
 
     @GetMapping("/get/{id}")
     public ResponseEntity<?> get(
             @PathVariable Long id
     ) {
-        return ResponseEntity.ok(connectionService.getConnection(id));
+        return ResponseEntity.ok(connectionService.get(id));
     }
 
     @PutMapping("/edit/{id}")
     public ResponseEntity<?> edit(
             @PathVariable Long id, @RequestBody ConnectionReceiveDTO connectionReceiveDTO
     ) {
-        return ResponseEntity.ok(connectionService.editConnection(id, connectionReceiveDTO));
+        return ResponseEntity.ok(connectionService.edit(id, connectionReceiveDTO));
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(
             @PathVariable Long id
     ) {
-        return ResponseEntity.ok(connectionService.deleteConnection(id));
+        return ResponseEntity.ok(connectionService.delete(id));
     }
 }
