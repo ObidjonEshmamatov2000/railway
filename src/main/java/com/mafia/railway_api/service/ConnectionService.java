@@ -1,8 +1,8 @@
 package com.mafia.railway_api.service;
 
 import com.mafia.railway_api.entity.connection.ConnectionEntity;
-import com.mafia.railway_api.exception.ConnectionCustomException;
-import com.mafia.railway_api.exception.ConnectionNotFound;
+import com.mafia.railway_api.exception.connection.ConnectionCustomException;
+import com.mafia.railway_api.exception.connection.ConnectionNotFoundException;
 import com.mafia.railway_api.model.receive.ConnectionReceiveDTO;
 import com.mafia.railway_api.model.response.ApiResponse;
 import com.mafia.railway_api.repository.ConnectionRepository;
@@ -16,11 +16,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ConnectionService {
+public class ConnectionService implements BaseService<ConnectionReceiveDTO>{
     private final ModelMapper modelMapper;
     private final ConnectionRepository connectionRepository;
 
-    public ApiResponse addConnection(
+    @Override
+    public ApiResponse add(
         ConnectionReceiveDTO connectionReceiveDTO
     ) {
         checkConnection(connectionReceiveDTO.getStation1(), connectionReceiveDTO.getStation2());
@@ -29,36 +30,40 @@ public class ConnectionService {
         return ResponseUtils.SUCCESS;
     }
 
-    public ApiResponse getConnectionList() {
+    @Override
+    public ApiResponse getList() {
         ApiResponse apiResponse = ResponseUtils.SUCCESS;
         List<ConnectionEntity> all = connectionRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
     }
 
-    public ApiResponse deleteConnection(long id) {
+    @Override
+    public ApiResponse delete(long id) {
         Optional<ConnectionEntity> byId = connectionRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new ConnectionNotFound("connection is not found");
+            throw new ConnectionNotFoundException("connection is not found");
         }
         connectionRepository.delete(byId.get());
         return ResponseUtils.SUCCESS;
     }
 
-    public ApiResponse getConnection(long id) {
+    @Override
+    public ApiResponse get(long id) {
         ApiResponse apiResponse = ResponseUtils.SUCCESS;
         Optional<ConnectionEntity> byId = connectionRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new ConnectionNotFound("connection is not found");
+            throw new ConnectionNotFoundException("connection is not found");
         }
         apiResponse.setData(byId.get());
         return apiResponse;
     }
 
-    public ApiResponse editConnection(long id, ConnectionReceiveDTO editingConnectionReceiveDTO) {
+    @Override
+    public ApiResponse edit(long id, ConnectionReceiveDTO editingConnectionReceiveDTO) {
         Optional<ConnectionEntity> byId = connectionRepository.findById(id);
         if (byId.isEmpty()) {
-            throw new ConnectionNotFound("connection is not found");
+            throw new ConnectionNotFoundException("connection is not found");
         }
         ConnectionEntity map = modelMapper.map(editingConnectionReceiveDTO, ConnectionEntity.class);
         connectionRepository.save(map);
