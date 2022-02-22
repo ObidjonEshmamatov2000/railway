@@ -26,7 +26,7 @@ public class ConnectionEntity extends BaseEntity {
     private double distance;
 
     @Column(name = "commute_coefficient")
-    private double commuteCoefficient = 1;
+    private double commuteCoefficient = 1.0;
 
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
     @JoinTable(
