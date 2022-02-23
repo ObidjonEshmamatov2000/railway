@@ -16,33 +16,33 @@ public class TrainController {
     public ResponseEntity<?> addTrain(
             @RequestBody TrainReceiveDTO trainReceiveDTO
     ) {
-        return ResponseEntity.ok(trainService.addTrain(trainReceiveDTO));
+        return ResponseEntity.ok(trainService.add(trainReceiveDTO));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/list")
     public ResponseEntity<?> getAllTrains() {
-        return ResponseEntity.ok(trainService.getAllTrains());
+        return ResponseEntity.ok(trainService.getList());
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getById(
-            @RequestParam long id
+            @PathVariable long id
     ) {
-        return ResponseEntity.ok(trainService.getById(id));
+        return ResponseEntity.ok(trainService.get(id));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> update(
-            @RequestBody TrainReceiveDTO trainReceiveDTO
+            @PathVariable Long id, @RequestBody TrainReceiveDTO trainReceiveDTO
     ) {
-        return ResponseEntity.ok(trainService.update(trainReceiveDTO));
+        return ResponseEntity.ok(trainService.edit(id, trainReceiveDTO));
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(
-            @RequestParam long id
+            @PathVariable long id
     ) {
-        return ResponseEntity.ok(trainService.deleteById(id));
+        return ResponseEntity.ok(trainService.delete(id));
     }
 
 }

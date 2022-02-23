@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @Data
 public class TrainReceiveDTO{
     private String name;
+    private String number;
     private int speed;
     private long railwayId;
     private LocalDateTime startTime;
