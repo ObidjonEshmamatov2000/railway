@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "ticket_entity")
 public class TicketEntity extends BaseEntity {
     @JsonIgnore
     @JoinColumn(name = "user_id")

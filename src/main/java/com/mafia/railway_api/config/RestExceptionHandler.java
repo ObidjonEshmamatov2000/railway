@@ -1,12 +1,13 @@
 package com.mafia.railway_api.config;
 
-import com.mafia.railway_api.exception.*;
+
+
 import com.mafia.railway_api.exception.connection.ConnectionCustomException;
 import com.mafia.railway_api.exception.connection.ConnectionNotFoundException;
-import com.mafia.railway_api.exception.railway.RailwayCustomException;
-import com.mafia.railway_api.exception.railway.RailwayNotFoundException;
-import com.mafia.railway_api.exception.railwayConnection.RailwayConnectionCustomException;
-import com.mafia.railway_api.exception.railwayConnection.RailwayConnectionNotFoundException;
+import com.mafia.railway_api.exception.ticket.TicketCustomException;
+import com.mafia.railway_api.exception.ticket.TicketNotFound;
+import com.mafia.railway_api.exception.user.UserCustomException;
+import com.mafia.railway_api.exception.user.UserNotFound;
 import com.mafia.railway_api.model.response.ApiExceptionErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -27,10 +28,19 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }
 
+
     @ExceptionHandler(UserCustomException.class)
     public ResponseEntity<?> handleUserCustomException() {
         ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
                 HttpStatus.BAD_REQUEST.value(), "user is exist"
+        );
+        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
+    }
+
+    @ExceptionHandler(UserNotFound.class)
+    public ResponseEntity<?> handleUserNotFoundException() {
+        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
+                HttpStatus.BAD_REQUEST.value(), "user not found"
         );
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }
@@ -43,22 +53,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }
 
-    @ExceptionHandler(RailwayCustomException.class)
-    public ResponseEntity<?> handleRailwayCustomException() {
-        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), "railway is exist"
-        );
-        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
-    }
-
-    @ExceptionHandler(RailwayConnectionCustomException.class)
-    public ResponseEntity<?> handleRailwayConnectionCustomException() {
-        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), "railway connection is exist"
-        );
-        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
-    }
-
     @ExceptionHandler(ConnectionNotFoundException.class)
     public ResponseEntity<?> handleConnectionNotFoundException() {
         ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
@@ -67,18 +61,18 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }
 
-    @ExceptionHandler(RailwayNotFoundException.class)
-    public ResponseEntity<?> handleRailwayNotFoundException() {
+    @ExceptionHandler(TicketNotFound.class)
+    public ResponseEntity<?> handleTicketNotFoundException() {
         ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), "railway is not found"
+                HttpStatus.BAD_REQUEST.value(), "ticket is not found"
         );
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }
 
-    @ExceptionHandler(RailwayConnectionNotFoundException.class)
-    public ResponseEntity<?> handleRailwayConnectionNotFoundException() {
+    @ExceptionHandler(TicketCustomException.class)
+    public ResponseEntity<?> handleTicketCustomException() {
         ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), "railway connection is not found"
+                HttpStatus.BAD_REQUEST.value(), "ticket is exist"
         );
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }

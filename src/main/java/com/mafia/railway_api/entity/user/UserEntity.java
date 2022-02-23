@@ -11,6 +11,7 @@ import java.util.Collection;
 @Getter
 @Setter
 @Entity
+@Table(name = "user_entity")
 public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -29,7 +30,7 @@ public class UserEntity extends BaseEntity {
     private String username;
 
     @Column(nullable = false)
-    private Boolean IsActive=false;
+    private Boolean IsActive=true;
 
     private String password;
 
