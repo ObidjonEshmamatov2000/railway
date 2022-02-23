@@ -27,6 +27,9 @@ public class WagonEntity extends BaseEntity {
     private int size;
 
     @Column(nullable = false)
+    private int number;
+
+    @Column(nullable = false)
     private double pricePerKM;
 
 

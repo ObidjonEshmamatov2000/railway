@@ -1,66 +1,79 @@
 package com.mafia.railway_api.service;
 
-import com.mafia.railway_api.entity.railway.RailwayEntity;
 import com.mafia.railway_api.entity.train.TrainEntity;
-import com.mafia.railway_api.entity.train.TrainStatus;
-import com.mafia.railway_api.entity.wagon.WagonEntity;
+import com.mafia.railway_api.exception.railway.RailwayCustomException;
+import com.mafia.railway_api.exception.railway.RailwayNotFoundException;
+import com.mafia.railway_api.exception.train.TrainCustomException;
+import com.mafia.railway_api.exception.train.TrainNotFoundException;
 import com.mafia.railway_api.model.receive.TrainReceiveDTO;
+import com.mafia.railway_api.model.response.ApiResponse;
 import com.mafia.railway_api.repository.TrainRepository;
+import com.mafia.railway_api.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TrainService {
+public class TrainService implements BaseService<TrainReceiveDTO>{
     private final ModelMapper modelMapper;
     private final TrainRepository trainRepository;
 
-
-    public TrainEntity addTrain(TrainReceiveDTO trainReceiveDTO){
-        TrainEntity trainEntity = new TrainEntity();
-        trainEntity.setRailwayEntity(new RailwayEntity()); // getRailwayEntity bolishi kerak aslida bu yerda
-        trainEntity.setTrainStatus(TrainStatus.valueOf(trainReceiveDTO.getTrainStatus()));
-        trainEntity.setName(trainReceiveDTO.getName());
-        trainEntity.setSpeed(trainReceiveDTO.getSpeed());
-        trainEntity.setStartTime(trainReceiveDTO.getStartTime());
-        trainEntity.setUpdatedBy(null);
-        trainEntity.setCreatedBy(null);
-        trainEntity.setUpdatedDate(null);
-        trainRepository.save(trainEntity);
-        return trainEntity;
+    public void checkTrain(String name, String number) {
+        Optional<TrainEntity> by = trainRepository.findTrainEntityByNameAndNumber(name, number);
+        if (by.isPresent()) {
+            throw new TrainCustomException("train is exist");
+        }
     }
 
-    public List<TrainEntity> getAllTrains(){
-        return trainRepository.findAll();
+    @Override
+    public ApiResponse add(TrainReceiveDTO trainReceiveDTO) {
+        checkTrain(trainReceiveDTO.getName(), trainReceiveDTO.getNumber());
+        TrainEntity map = modelMapper.map(trainReceiveDTO, TrainEntity.class);
+        trainRepository.save(map);
+        return ResponseUtils.SUCCESS;
     }
 
-    public TrainEntity getById(long id) {
-        return trainRepository.getById(id);
+    @Override
+    public ApiResponse getList() {
+        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        List<TrainEntity> all = trainRepository.findAll();
+        apiResponse.setData(all);
+        return apiResponse;
     }
 
-    public TrainEntity update(TrainReceiveDTO trainReceiveDTO) {
-        TrainEntity trainEntity = new TrainEntity();
-        trainEntity.setRailwayEntity(new RailwayEntity()); // getRailwayEntity bolishi kerak aslida bu yerda----------------
-        trainEntity.setTrainStatus(TrainStatus.valueOf(trainReceiveDTO.getTrainStatus()));
-        trainEntity.setName(trainReceiveDTO.getName());
-        trainEntity.setSpeed(trainReceiveDTO.getSpeed());
-        trainEntity.setStartTime(trainReceiveDTO.getStartTime());
-        trainEntity.setUpdatedDate(new Date());
-        trainEntity.setUpdatedBy(null);
-        trainEntity.setCreatedBy(null);
-
-        return trainRepository.save(trainEntity);
-
+    @Override
+    public ApiResponse get(long id) {
+        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        Optional<TrainEntity> byId = trainRepository.findById(id);
+        if (byId.isEmpty()) {
+            throw new TrainNotFoundException("train is not found");
+        }
+        apiResponse.setData(byId.get());
+        return apiResponse;
     }
 
-    public TrainEntity deleteById(long id) {
-        TrainEntity trainEntity = getById(id);
-        trainRepository.delete(trainEntity);
-        return trainEntity;
+    @Override
+    public ApiResponse delete(long id) {
+        Optional<TrainEntity> byId = trainRepository.findById(id);
+        if (byId.isEmpty()) {
+            throw new TrainNotFoundException("train is not found");
+        }
+        trainRepository.delete(byId.get());
+        return ResponseUtils.SUCCESS;
     }
 
+    @Override
+    public ApiResponse edit(long id, TrainReceiveDTO trainReceiveDTO) {
+        Optional<TrainEntity> byId = trainRepository.findById(id);
+        if (byId.isEmpty()) {
+            throw new TrainNotFoundException("train is not found");
+        }
+        TrainEntity map = modelMapper.map(trainReceiveDTO, TrainEntity.class);
+        trainRepository.save(map);
+        return ResponseUtils.SUCCESS;
+    }
 }
