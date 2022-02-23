@@ -1,8 +1,7 @@
 package com.mafia.railway_api.service;
 
-import com.mafia.railway_api.entity.railway.RailwayEntity;
+
 import com.mafia.railway_api.entity.railwayConnection.RailwayConnectionEntity;
-import com.mafia.railway_api.exception.railway.RailwayNotFoundException;
 import com.mafia.railway_api.exception.railwayConnection.RailwayConnectionNotFoundException;
 import com.mafia.railway_api.model.receive.RailwayConnectionReceiveDTO;
 import com.mafia.railway_api.model.response.ApiResponse;

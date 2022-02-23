@@ -14,6 +14,9 @@ import java.util.List;
 @Entity
 public class WagonEntity extends BaseEntity {
 
+    @Column(nullable = false)
+    private String number;
+
     @ManyToOne(fetch = FetchType.LAZY,cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
             CascadeType.REFRESH})
     @JoinColumn(name = "train_id")

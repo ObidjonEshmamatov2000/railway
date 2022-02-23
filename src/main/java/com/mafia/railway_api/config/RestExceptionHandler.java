@@ -7,6 +7,10 @@ import com.mafia.railway_api.exception.railway.RailwayCustomException;
 import com.mafia.railway_api.exception.railway.RailwayNotFoundException;
 import com.mafia.railway_api.exception.railwayConnection.RailwayConnectionCustomException;
 import com.mafia.railway_api.exception.railwayConnection.RailwayConnectionNotFoundException;
+import com.mafia.railway_api.exception.train.TrainCustomException;
+import com.mafia.railway_api.exception.train.TrainNotFoundException;
+import com.mafia.railway_api.exception.wagon.WagonCustomException;
+import com.mafia.railway_api.exception.wagon.WagonNotFoundException;
 import com.mafia.railway_api.model.response.ApiExceptionErrorResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -79,6 +83,38 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<?> handleRailwayConnectionNotFoundException() {
         ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
                 HttpStatus.BAD_REQUEST.value(), "railway connection is not found"
+        );
+        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
+    }
+
+    @ExceptionHandler(WagonNotFoundException.class)
+    public ResponseEntity<?> handleWagonNotFoundException() {
+        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
+                HttpStatus.BAD_REQUEST.value(), "wagon is not found"
+        );
+        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
+    }
+
+    @ExceptionHandler(WagonCustomException.class)
+    public ResponseEntity<?> handleWagonCustomException() {
+        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
+                HttpStatus.BAD_REQUEST.value(), "wagon is exist"
+        );
+        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
+    }
+
+    @ExceptionHandler(TrainNotFoundException.class)
+    public ResponseEntity<?> handleTrainNotFoundException() {
+        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
+                HttpStatus.BAD_REQUEST.value(), "train is not found"
+        );
+        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
+    }
+
+    @ExceptionHandler(TrainCustomException.class)
+    public ResponseEntity<?> handleTrainCustomException() {
+        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
+                HttpStatus.BAD_REQUEST.value(), "train is exist"
         );
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }

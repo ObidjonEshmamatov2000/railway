@@ -17,33 +17,33 @@ public class WagonController {
     public ResponseEntity<?> addTrain(
             @RequestBody WagonReceiveDTO wagonReceiveDTO
     ) {
-        return ResponseEntity.ok(wagonService.addWagon(wagonReceiveDTO));
+        return ResponseEntity.ok(wagonService.add(wagonReceiveDTO));
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/list")
     public ResponseEntity<?> getAllTrains() {
-        return ResponseEntity.ok(wagonService.getAllTrains());
+        return ResponseEntity.ok(wagonService.getList());
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get/{id}")
     public ResponseEntity<?> getById(
             @RequestParam long id
     ) {
-        return ResponseEntity.ok(wagonService.getById(id));
+        return ResponseEntity.ok(wagonService.get(id));
     }
 
-    @PutMapping("/update")
+    @PutMapping("/edit/{id}")
     public ResponseEntity<?> update(
-            @RequestBody WagonReceiveDTO wagonReceiveDTO
+            @RequestParam long id, @RequestBody WagonReceiveDTO wagonReceiveDTO
     ) {
-        return ResponseEntity.ok(wagonService.update(wagonReceiveDTO));
+        return ResponseEntity.ok(wagonService.edit(id,wagonReceiveDTO));
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> delete(
             @RequestParam long id
     ) {
-        return ResponseEntity.ok(wagonService.deleteById(id));
+        return ResponseEntity.ok(wagonService.delete(id));
     }
 
 }

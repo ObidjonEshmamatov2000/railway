@@ -18,6 +18,9 @@ public class TrainEntity extends BaseEntity {
     private String name;
 
     @Column(nullable = false)
+    private String number;
+
+    @Column(nullable = false)
     private int speed;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH,
