@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class WagonReceiveDTO {
+    private String number;
     private long trainId;
     private String wagonType;
     private int size;
