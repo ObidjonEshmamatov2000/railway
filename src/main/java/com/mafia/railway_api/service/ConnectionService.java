@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ConnectionService implements BaseService<ConnectionReceiveDTO>{
+public class ConnectionService extends ResponseUtils implements BaseService<ConnectionReceiveDTO>{
     private final ModelMapper modelMapper;
     private final ConnectionRepository connectionRepository;
 
@@ -27,12 +27,12 @@ public class ConnectionService implements BaseService<ConnectionReceiveDTO>{
         checkConnection(connectionReceiveDTO.getStation1(), connectionReceiveDTO.getStation2());
         ConnectionEntity map = modelMapper.map(connectionReceiveDTO, ConnectionEntity.class);
         connectionRepository.save(map);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         List<ConnectionEntity> all = connectionRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -45,12 +45,12 @@ public class ConnectionService implements BaseService<ConnectionReceiveDTO>{
             throw new ConnectionNotFoundException("connection is not found");
         }
         connectionRepository.delete(byId.get());
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
     public ApiResponse get(long id) {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         Optional<ConnectionEntity> byId = connectionRepository.findById(id);
         if (byId.isEmpty()) {
             throw new ConnectionNotFoundException("connection is not found");
@@ -65,9 +65,10 @@ public class ConnectionService implements BaseService<ConnectionReceiveDTO>{
         if (byId.isEmpty()) {
             throw new ConnectionNotFoundException("connection is not found");
         }
-        ConnectionEntity map = modelMapper.map(editingConnectionReceiveDTO, ConnectionEntity.class);
-        connectionRepository.save(map);
-        return ResponseUtils.SUCCESS;
+        ConnectionEntity connectionEntity = byId.get();
+        connectionEntity = modelMapper.map(editingConnectionReceiveDTO, ConnectionEntity.class);
+        connectionRepository.save(connectionEntity);
+        return SUCCESS;
     }
 
     private void checkConnection(String station1, String station2) {

@@ -17,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TicketService implements BaseService< TicketReceiveDTO >{
+public class TicketService extends ResponseUtils implements BaseService< TicketReceiveDTO >{
     private final ModelMapper modelMapper;
     private final TicketRepository ticketRepository;
 
@@ -26,12 +26,12 @@ public class TicketService implements BaseService< TicketReceiveDTO >{
     public ApiResponse add(TicketReceiveDTO ticketReceiveDTO) {
         TicketEntity ticketEntity =  modelMapper.map(ticketReceiveDTO, TicketEntity.class);
         ticketRepository.save(ticketEntity);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         List< TicketEntity > all = ticketRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -43,7 +43,7 @@ public class TicketService implements BaseService< TicketReceiveDTO >{
         if (byId.isEmpty()){
             throw new  TicketNotFound(id+"ticket not found");
         }
-        ApiResponse success = ResponseUtils.SUCCESS;
+        ApiResponse success = SUCCESS;
         success.setData(byId.get());
         return success;
     }
@@ -55,7 +55,7 @@ public class TicketService implements BaseService< TicketReceiveDTO >{
             throw new  TicketNotFound(id+"ticket not found");
         }
         ticketRepository.deleteById(id);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class TicketService implements BaseService< TicketReceiveDTO >{
         TicketEntity ticketEntity=byId.get();
          ticketEntity=modelMapper.map(ticketReceiveDTO,TicketEntity.class);
         ticketRepository.save(ticketEntity);
-        ApiResponse success = ResponseUtils.SUCCESS;
+        ApiResponse success = SUCCESS;
         success.setData(ticketEntity);
         return success;
     }

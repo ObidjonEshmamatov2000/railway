@@ -1,8 +1,6 @@
 package com.mafia.railway_api.service;
 
 import com.mafia.railway_api.entity.train.TrainEntity;
-import com.mafia.railway_api.exception.railway.RailwayCustomException;
-import com.mafia.railway_api.exception.railway.RailwayNotFoundException;
 import com.mafia.railway_api.exception.train.TrainCustomException;
 import com.mafia.railway_api.exception.train.TrainNotFoundException;
 import com.mafia.railway_api.model.receive.TrainReceiveDTO;
@@ -18,7 +16,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TrainService implements BaseService<TrainReceiveDTO>{
+public class TrainService extends ResponseUtils implements BaseService<TrainReceiveDTO>{
     private final ModelMapper modelMapper;
     private final TrainRepository trainRepository;
 
@@ -34,12 +32,12 @@ public class TrainService implements BaseService<TrainReceiveDTO>{
         checkTrain(trainReceiveDTO.getName(), trainReceiveDTO.getNumber());
         TrainEntity map = modelMapper.map(trainReceiveDTO, TrainEntity.class);
         trainRepository.save(map);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         List<TrainEntity> all = trainRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -47,7 +45,7 @@ public class TrainService implements BaseService<TrainReceiveDTO>{
 
     @Override
     public ApiResponse get(long id) {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         Optional<TrainEntity> byId = trainRepository.findById(id);
         if (byId.isEmpty()) {
             throw new TrainNotFoundException("train is not found");
@@ -63,7 +61,7 @@ public class TrainService implements BaseService<TrainReceiveDTO>{
             throw new TrainNotFoundException("train is not found");
         }
         trainRepository.delete(byId.get());
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
@@ -74,6 +72,6 @@ public class TrainService implements BaseService<TrainReceiveDTO>{
         }
         TrainEntity map = modelMapper.map(trainReceiveDTO, TrainEntity.class);
         trainRepository.save(map);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 }

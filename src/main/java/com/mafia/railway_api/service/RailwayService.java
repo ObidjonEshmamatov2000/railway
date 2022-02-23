@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class RailwayService implements BaseService<RailwayReceiveDTO> {
+public class RailwayService extends ResponseUtils implements BaseService<RailwayReceiveDTO> {
     private final ModelMapper modelMapper;
     private final RailwayRepository railwayRepository;
 
@@ -28,12 +28,12 @@ public class RailwayService implements BaseService<RailwayReceiveDTO> {
         checkRailway(railwayReceiveDTO.getFromStation(), railwayReceiveDTO.getToStation());
         RailwayEntity map = modelMapper.map(railwayReceiveDTO, RailwayEntity.class);
         railwayRepository.save(map);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         List<RailwayEntity> all = railwayRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -41,7 +41,7 @@ public class RailwayService implements BaseService<RailwayReceiveDTO> {
 
     @Override
     public ApiResponse get(long id) {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         Optional<RailwayEntity> byId = railwayRepository.findById(id);
         if (byId.isEmpty()) {
             throw new RailwayNotFoundException("railway is not found");
@@ -57,7 +57,7 @@ public class RailwayService implements BaseService<RailwayReceiveDTO> {
             throw new RailwayNotFoundException("railway is not found");
         }
         railwayRepository.delete(byId.get());
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
@@ -67,8 +67,9 @@ public class RailwayService implements BaseService<RailwayReceiveDTO> {
             throw new RailwayNotFoundException("railway is not found");
         }
         RailwayEntity map = modelMapper.map(railwayReceiveDTO, RailwayEntity.class);
+        map.setId(id);
         railwayRepository.save(map);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     public void checkRailway(String from, String to) {
