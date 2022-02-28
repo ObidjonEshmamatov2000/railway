@@ -9,6 +9,7 @@ import com.mafia.railway_api.repository.TrainRepository;
 import com.mafia.railway_api.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,7 +18,10 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class TrainService extends ResponseUtils implements BaseService<TrainReceiveDTO>{
+    @Autowired
     private final ModelMapper modelMapper;
+
+    @Autowired
     private final TrainRepository trainRepository;
 
     public void checkTrain(String name, String number) {

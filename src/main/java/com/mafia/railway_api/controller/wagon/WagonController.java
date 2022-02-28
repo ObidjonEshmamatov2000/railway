@@ -4,6 +4,7 @@ package com.mafia.railway_api.controller.wagon;
 import com.mafia.railway_api.model.receive.WagonReceiveDTO;
 import com.mafia.railway_api.service.WagonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/wagon")
 public class WagonController {
+    @Autowired
     private final WagonService wagonService;
 
     @PostMapping("/add")

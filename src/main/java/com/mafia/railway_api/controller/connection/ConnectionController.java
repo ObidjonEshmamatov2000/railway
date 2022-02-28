@@ -3,6 +3,7 @@ package com.mafia.railway_api.controller.connection;
 import com.mafia.railway_api.model.receive.ConnectionReceiveDTO;
 import com.mafia.railway_api.service.ConnectionService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/connection")
 public class ConnectionController {
+    @Autowired
     private final ConnectionService connectionService;
 
     @PostMapping("/add")

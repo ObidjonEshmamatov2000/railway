@@ -4,6 +4,7 @@ import com.mafia.railway_api.model.receive.TicketReceiveDTO;
 import com.mafia.railway_api.model.receive.UserReceiveDTO;
 import com.mafia.railway_api.service.TicketService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/ticket")
 public class TicketController {
+    @Autowired
     private final TicketService ticketService;
 
     @PostMapping("/add")
