@@ -24,7 +24,7 @@ public class UserController {
         return ResponseEntity.ok(userService.add(userReceiveDTO));
     }
 
-    @GetMapping("/get")
+    @GetMapping("/list")
     public ResponseEntity<?> getUsers(  ) {
         return ResponseEntity.ok(userService.getList());
     }

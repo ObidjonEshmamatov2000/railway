@@ -24,7 +24,7 @@ public class TicketController {
         return ResponseEntity.ok(ticketService.add(ticketReceiveDTO));
     }
 
-    @GetMapping("/get")
+    @GetMapping("/list")
     public ResponseEntity<?> getTicketList(  ) {
         return ResponseEntity.ok(ticketService.getList());
     }
