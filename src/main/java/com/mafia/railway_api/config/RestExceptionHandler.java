@@ -147,36 +147,4 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         );
         return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
     }
-
-    @ExceptionHandler(WagonNotFoundException.class)
-    public ResponseEntity<?> handleWagonNotFoundException() {
-        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), "wagon is not found"
-        );
-        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
-    }
-
-    @ExceptionHandler(WagonCustomException.class)
-    public ResponseEntity<?> handleWagonCustomException() {
-        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), "wagon is exist"
-        );
-        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
-    }
-
-    @ExceptionHandler(TrainNotFoundException.class)
-    public ResponseEntity<?> handleTrainNotFoundException() {
-        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), "train is not found"
-        );
-        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
-    }
-
-    @ExceptionHandler(TrainCustomException.class)
-    public ResponseEntity<?> handleTrainCustomException() {
-        ApiExceptionErrorResponse apiExceptionErrorResponse = new ApiExceptionErrorResponse(
-                HttpStatus.BAD_REQUEST.value(), "train is exist"
-        );
-        return ResponseEntity.badRequest().body(apiExceptionErrorResponse);
-    }
 }
