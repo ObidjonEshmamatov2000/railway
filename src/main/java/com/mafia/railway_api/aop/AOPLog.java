@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class AOPLog {
-    @Autowired
-    private LoggingRepository loggingRepository;
+    private final LoggingRepository loggingRepository;
 
     @Pointcut("execution(* com.mafia.railway_api.entity.*.*(..))")
     public void addEntityLog(){}

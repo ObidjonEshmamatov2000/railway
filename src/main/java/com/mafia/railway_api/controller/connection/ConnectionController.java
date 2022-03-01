@@ -13,7 +13,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/connection")
 public class ConnectionController {
-    @Autowired
     private final ConnectionService connectionService;
 
     @PostMapping("/add")

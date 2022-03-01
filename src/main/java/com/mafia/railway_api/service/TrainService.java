@@ -17,12 +17,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TrainService extends ResponseUtils implements BaseService<TrainReceiveDTO>{
-    @Autowired
+public class TrainService implements BaseService<TrainReceiveDTO>{
     private final ModelMapper modelMapper;
 
-    @Autowired
     private final TrainRepository trainRepository;
+
+    private final ResponseUtils responseUtils;
 
     public void checkTrain(String name, String number) {
         Optional<TrainEntity> by = trainRepository.findTrainEntityByNameAndNumber(name, number);
@@ -36,12 +36,12 @@ public class TrainService extends ResponseUtils implements BaseService<TrainRece
         checkTrain(trainReceiveDTO.getName(), trainReceiveDTO.getNumber());
         TrainEntity map = modelMapper.map(trainReceiveDTO, TrainEntity.class);
         trainRepository.save(map);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         List<TrainEntity> all = trainRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -49,7 +49,7 @@ public class TrainService extends ResponseUtils implements BaseService<TrainRece
 
     @Override
     public ApiResponse get(long id) {
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         Optional<TrainEntity> byId = trainRepository.findById(id);
         if (byId.isEmpty()) {
             throw new TrainNotFoundException("train is not found");
@@ -65,7 +65,7 @@ public class TrainService extends ResponseUtils implements BaseService<TrainRece
             throw new TrainNotFoundException("train is not found");
         }
         trainRepository.delete(byId.get());
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
@@ -76,6 +76,6 @@ public class TrainService extends ResponseUtils implements BaseService<TrainRece
         }
         TrainEntity map = modelMapper.map(trainReceiveDTO, TrainEntity.class);
         trainRepository.save(map);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 }

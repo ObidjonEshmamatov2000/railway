@@ -9,7 +9,6 @@ import com.mafia.railway_api.repository.ConnectionRepository;
 import com.mafia.railway_api.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,12 +16,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class ConnectionService extends ResponseUtils implements BaseService<ConnectionReceiveDTO>{
-    @Autowired
+public class ConnectionService implements BaseService<ConnectionReceiveDTO>{
     private final ModelMapper modelMapper;
 
-    @Autowired
     private final ConnectionRepository connectionRepository;
+
+    private final ResponseUtils responseUtils;
 
     @Override
     public ApiResponse add(
@@ -31,12 +30,12 @@ public class ConnectionService extends ResponseUtils implements BaseService<Conn
         checkConnection(connectionReceiveDTO.getStation1(), connectionReceiveDTO.getStation2());
         ConnectionEntity map = modelMapper.map(connectionReceiveDTO, ConnectionEntity.class);
         connectionRepository.save(map);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         List<ConnectionEntity> all = connectionRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -49,12 +48,12 @@ public class ConnectionService extends ResponseUtils implements BaseService<Conn
             throw new ConnectionNotFoundException("connection is not found");
         }
         connectionRepository.delete(byId.get());
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
     public ApiResponse get(long id) {
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         Optional<ConnectionEntity> byId = connectionRepository.findById(id);
         if (byId.isEmpty()) {
             throw new ConnectionNotFoundException("connection is not found");
@@ -72,7 +71,7 @@ public class ConnectionService extends ResponseUtils implements BaseService<Conn
         ConnectionEntity connectionEntity = byId.get();
         connectionEntity = modelMapper.map(editingConnectionReceiveDTO, ConnectionEntity.class);
         connectionRepository.save(connectionEntity);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     private void checkConnection(String station1, String station2) {

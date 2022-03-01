@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/train")
 public class TrainController {
-    @Autowired
     private final TrainService trainService;
 
     @PostMapping("/add")

@@ -14,7 +14,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/railway")
 public class RailwayController {
-    @Autowired
     private final RailwayService railwayService;
 
     @PostMapping("/add")

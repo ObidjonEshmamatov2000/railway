@@ -18,24 +18,23 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class RailwayConnectionService extends ResponseUtils implements BaseService<RailwayConnectionReceiveDTO> {
-    @Autowired
+public class RailwayConnectionService implements BaseService<RailwayConnectionReceiveDTO> {
     private final ModelMapper modelMapper;
 
-    @Autowired
     private final RailwayConnectionRepository railwayConnectionRepository;
 
+    private final ResponseUtils responseUtils;
 
     @Override
     public ApiResponse add(RailwayConnectionReceiveDTO railwayConnectionReceiveDTO) {
         RailwayConnectionEntity map = modelMapper.map(railwayConnectionReceiveDTO, RailwayConnectionEntity.class);
         railwayConnectionRepository.save(map);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         List<RailwayConnectionEntity> all = railwayConnectionRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -43,7 +42,7 @@ public class RailwayConnectionService extends ResponseUtils implements BaseServi
 
     @Override
     public ApiResponse get(long id) {
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         Optional<RailwayConnectionEntity> byId = railwayConnectionRepository.findById(id);
         if (byId.isEmpty()) {
             throw new RailwayConnectionNotFoundException("railway connection is not found");
@@ -59,7 +58,7 @@ public class RailwayConnectionService extends ResponseUtils implements BaseServi
             throw new RailwayConnectionNotFoundException("railway connection is not found");
         }
         railwayConnectionRepository.delete(byId.get());
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
@@ -70,6 +69,6 @@ public class RailwayConnectionService extends ResponseUtils implements BaseServi
         }
         RailwayConnectionEntity map = modelMapper.map(railwayConnectionReceiveDTO, RailwayConnectionEntity.class);
         railwayConnectionRepository.save(map);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 }

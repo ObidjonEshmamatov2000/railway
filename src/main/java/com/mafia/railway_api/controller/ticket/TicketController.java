@@ -14,7 +14,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/ticket")
 public class TicketController {
-    @Autowired
     private final TicketService ticketService;
 
     @PostMapping("/add")

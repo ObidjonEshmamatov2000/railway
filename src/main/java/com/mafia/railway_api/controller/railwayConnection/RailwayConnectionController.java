@@ -13,7 +13,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/railway-connection")
 public class RailwayConnectionController {
-    @Autowired
     private final RailwayConnectionService railwayConnectionService;
 
     @PostMapping("/add")

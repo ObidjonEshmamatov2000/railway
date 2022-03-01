@@ -16,25 +16,25 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class WagonService extends ResponseUtils implements BaseService<WagonReceiveDTO>{
+public class WagonService implements BaseService<WagonReceiveDTO>{
 
-    @Autowired
     private final ModelMapper modelMapper;
 
-    @Autowired
     private final WagonRepository wagonRepository;
+
+    private final ResponseUtils responseUtils;
 
     @Override
     public ApiResponse add(WagonReceiveDTO wagonReceiveDTO) {
         checkWagon(wagonReceiveDTO.getNumber());
         WagonEntity map = modelMapper.map(wagonReceiveDTO, WagonEntity.class);
         wagonRepository.save(map);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         apiResponse.setData(wagonRepository.findAll());
         return apiResponse;
     }
@@ -45,7 +45,7 @@ public class WagonService extends ResponseUtils implements BaseService<WagonRece
         if(optionalWagonEntity.isEmpty()){
             throw new WagonNotFoundException("wagon not found");
         }
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         apiResponse.setData(optionalWagonEntity);
         return apiResponse;
     }
@@ -57,7 +57,7 @@ public class WagonService extends ResponseUtils implements BaseService<WagonRece
             throw new WagonNotFoundException("wagon not found");
         }
         wagonRepository.delete(optionalWagonEntity.get());
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class WagonService extends ResponseUtils implements BaseService<WagonRece
         }
         WagonEntity map = modelMapper.map(wagonReceiveDTO, WagonEntity.class);
         wagonRepository.save(map);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
 
     }
 

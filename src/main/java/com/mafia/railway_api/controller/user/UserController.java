@@ -14,7 +14,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/user")
 public class UserController {
-    @Autowired
     private final UserService userService;
 
     @PostMapping("/add")

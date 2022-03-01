@@ -18,12 +18,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService extends ResponseUtils implements BaseService<UserReceiveDTO>{
-    @Autowired
+public class UserService implements BaseService<UserReceiveDTO>{
     private final ModelMapper modelMapper;
 
-    @Autowired
     private final UserRepository userRepository;
+
+    private final ResponseUtils responseUtils;
 
 
 
@@ -40,7 +40,7 @@ public class UserService extends ResponseUtils implements BaseService<UserReceiv
         checkUser(userReceiveDTO.getUsername());
         UserEntity userEntity = modelMapper.map(userReceiveDTO, UserEntity.class);
 
-        ApiResponse success = SUCCESS;
+        ApiResponse success = responseUtils.SUCCESS;
         userRepository.save(userEntity);
         return success;
     }
@@ -48,14 +48,14 @@ public class UserService extends ResponseUtils implements BaseService<UserReceiv
     @Override
     public ApiResponse getList() {
         List<UserEntity> userEntities=userRepository.findAll();
-        ApiResponse success = SUCCESS;
+        ApiResponse success = responseUtils.SUCCESS;
         success.setData(userEntities);
         return success;
     }
 
 
     public ApiResponse get(long id) {
-        ApiResponse success = SUCCESS;
+        ApiResponse success = responseUtils.SUCCESS;
         Optional< UserEntity > byId = userRepository.findById(id);
         if (byId.isEmpty()){
             throw new UserNotFound(id + "user not found");
@@ -72,7 +72,7 @@ public class UserService extends ResponseUtils implements BaseService<UserReceiv
             throw new UserNotFound(id+"user is not found");
         }
         userRepository.deleteById(id);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
@@ -100,7 +100,7 @@ public class UserService extends ResponseUtils implements BaseService<UserReceiv
 
         userRepository.save(userEntity);
 
-        ApiResponse apiResponse=SUCCESS;
+        ApiResponse apiResponse= responseUtils.SUCCESS;
         apiResponse.setData(userEntity);
 
         return apiResponse;

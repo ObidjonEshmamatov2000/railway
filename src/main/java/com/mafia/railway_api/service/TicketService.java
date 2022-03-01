@@ -18,24 +18,24 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class TicketService extends ResponseUtils implements BaseService< TicketReceiveDTO >{
-    @Autowired
+public class TicketService implements BaseService< TicketReceiveDTO >{
     private final ModelMapper modelMapper;
 
-    @Autowired
     private final TicketRepository ticketRepository;
 
+
+    private final ResponseUtils responseUtils;
 
     @Override
     public ApiResponse add(TicketReceiveDTO ticketReceiveDTO) {
         TicketEntity ticketEntity =  modelMapper.map(ticketReceiveDTO, TicketEntity.class);
         ticketRepository.save(ticketEntity);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = SUCCESS;
+        ApiResponse apiResponse = responseUtils.SUCCESS;
         List< TicketEntity > all = ticketRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -47,7 +47,7 @@ public class TicketService extends ResponseUtils implements BaseService< TicketR
         if (byId.isEmpty()){
             throw new  TicketNotFound(id+"ticket not found");
         }
-        ApiResponse success = SUCCESS;
+        ApiResponse success = responseUtils.SUCCESS;
         success.setData(byId.get());
         return success;
     }
@@ -59,7 +59,7 @@ public class TicketService extends ResponseUtils implements BaseService< TicketR
             throw new  TicketNotFound(id+"ticket not found");
         }
         ticketRepository.deleteById(id);
-        return SUCCESS;
+        return responseUtils.SUCCESS;
     }
 
     @Override
@@ -72,7 +72,7 @@ public class TicketService extends ResponseUtils implements BaseService< TicketR
         TicketEntity ticketEntity=byId.get();
          ticketEntity=modelMapper.map(ticketReceiveDTO,TicketEntity.class);
         ticketRepository.save(ticketEntity);
-        ApiResponse success = SUCCESS;
+        ApiResponse success = responseUtils.SUCCESS;
         success.setData(ticketEntity);
         return success;
     }

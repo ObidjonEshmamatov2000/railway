@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/wagon")
 public class WagonController {
-    @Autowired
     private final WagonService wagonService;
 
     @PostMapping("/add")
