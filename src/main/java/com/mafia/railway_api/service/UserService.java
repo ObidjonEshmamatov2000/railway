@@ -10,6 +10,7 @@ import com.mafia.railway_api.repository.UserRepository;
 import com.mafia.railway_api.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,8 +18,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserService implements BaseService<UserReceiveDTO>{
+public class UserService extends ResponseUtils implements BaseService<UserReceiveDTO>{
+    @Autowired
     private final ModelMapper modelMapper;
+
+    @Autowired
     private final UserRepository userRepository;
 
 
@@ -36,7 +40,7 @@ public class UserService implements BaseService<UserReceiveDTO>{
         checkUser(userReceiveDTO.getUsername());
         UserEntity userEntity = modelMapper.map(userReceiveDTO, UserEntity.class);
 
-        ApiResponse success = ResponseUtils.SUCCESS;
+        ApiResponse success = SUCCESS;
         userRepository.save(userEntity);
         return success;
     }
@@ -44,14 +48,14 @@ public class UserService implements BaseService<UserReceiveDTO>{
     @Override
     public ApiResponse getList() {
         List<UserEntity> userEntities=userRepository.findAll();
-        ApiResponse success = ResponseUtils.SUCCESS;
+        ApiResponse success = SUCCESS;
         success.setData(userEntities);
         return success;
     }
 
 
     public ApiResponse get(long id) {
-        ApiResponse success = ResponseUtils.SUCCESS;
+        ApiResponse success = SUCCESS;
         Optional< UserEntity > byId = userRepository.findById(id);
         if (byId.isEmpty()){
             throw new UserNotFound(id + "user not found");
@@ -68,7 +72,7 @@ public class UserService implements BaseService<UserReceiveDTO>{
             throw new UserNotFound(id+"user is not found");
         }
         userRepository.deleteById(id);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
@@ -96,7 +100,7 @@ public class UserService implements BaseService<UserReceiveDTO>{
 
         userRepository.save(userEntity);
 
-        ApiResponse apiResponse=ResponseUtils.SUCCESS;
+        ApiResponse apiResponse=SUCCESS;
         apiResponse.setData(userEntity);
 
         return apiResponse;

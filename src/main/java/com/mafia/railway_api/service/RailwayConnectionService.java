@@ -9,6 +9,7 @@ import com.mafia.railway_api.repository.RailwayConnectionRepository;
 import com.mafia.railway_api.util.ResponseUtils;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +17,11 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class RailwayConnectionService implements BaseService<RailwayConnectionReceiveDTO> {
+public class RailwayConnectionService extends ResponseUtils implements BaseService<RailwayConnectionReceiveDTO> {
+    @Autowired
     private final ModelMapper modelMapper;
+
+    @Autowired
     private final RailwayConnectionRepository railwayConnectionRepository;
 
 
@@ -25,12 +29,12 @@ public class RailwayConnectionService implements BaseService<RailwayConnectionRe
     public ApiResponse add(RailwayConnectionReceiveDTO railwayConnectionReceiveDTO) {
         RailwayConnectionEntity map = modelMapper.map(railwayConnectionReceiveDTO, RailwayConnectionEntity.class);
         railwayConnectionRepository.save(map);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
     public ApiResponse getList() {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         List<RailwayConnectionEntity> all = railwayConnectionRepository.findAll();
         apiResponse.setData(all);
         return apiResponse;
@@ -38,7 +42,7 @@ public class RailwayConnectionService implements BaseService<RailwayConnectionRe
 
     @Override
     public ApiResponse get(long id) {
-        ApiResponse apiResponse = ResponseUtils.SUCCESS;
+        ApiResponse apiResponse = SUCCESS;
         Optional<RailwayConnectionEntity> byId = railwayConnectionRepository.findById(id);
         if (byId.isEmpty()) {
             throw new RailwayConnectionNotFoundException("railway connection is not found");
@@ -54,7 +58,7 @@ public class RailwayConnectionService implements BaseService<RailwayConnectionRe
             throw new RailwayConnectionNotFoundException("railway connection is not found");
         }
         railwayConnectionRepository.delete(byId.get());
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 
     @Override
@@ -65,6 +69,6 @@ public class RailwayConnectionService implements BaseService<RailwayConnectionRe
         }
         RailwayConnectionEntity map = modelMapper.map(railwayConnectionReceiveDTO, RailwayConnectionEntity.class);
         railwayConnectionRepository.save(map);
-        return ResponseUtils.SUCCESS;
+        return SUCCESS;
     }
 }

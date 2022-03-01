@@ -3,6 +3,7 @@ package com.mafia.railway_api.controller.train;
 import com.mafia.railway_api.model.receive.TrainReceiveDTO;
 import com.mafia.railway_api.service.TrainService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("api/train")
 public class TrainController {
+    @Autowired
     private final TrainService trainService;
 
     @PostMapping("/add")

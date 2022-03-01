@@ -4,6 +4,7 @@ import com.mafia.railway_api.model.receive.ConnectionReceiveDTO;
 import com.mafia.railway_api.model.receive.UserReceiveDTO;
 import com.mafia.railway_api.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("api/user")
 public class UserController {
+    @Autowired
     private final UserService userService;
 
     @PostMapping("/add")
@@ -22,7 +24,7 @@ public class UserController {
         return ResponseEntity.ok(userService.add(userReceiveDTO));
     }
 
-    @GetMapping("/get")
+    @GetMapping("/list")
     public ResponseEntity<?> getUsers(  ) {
         return ResponseEntity.ok(userService.getList());
     }

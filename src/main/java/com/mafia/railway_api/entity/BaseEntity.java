@@ -1,5 +1,6 @@
 package com.mafia.railway_api.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -23,6 +24,7 @@ public class BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss",timezone = "Asia/Tashkent")
     @CreationTimestamp
     private Date createdDate;
 
