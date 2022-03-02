@@ -1,7 +1,11 @@
 package com.mafia.railway_api.util;
 
 import com.mafia.railway_api.model.response.ApiResponse;
-public abstract class ResponseUtils {
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+@Component
+public class ResponseUtils {
 
     public ApiResponse SUCCESS = new ApiResponse(0, "success");
 
